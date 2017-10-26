@@ -1,4 +1,6 @@
 # Requirement
+    # python 3
+    # tensorflow 1.2
     pip install -r requirements.txt
 # Process data
     python preprocess.py --dataset ljspeech
