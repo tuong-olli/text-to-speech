@@ -41,7 +41,10 @@ def generate_text():
                     tokens = nltk.word_tokenize(line)
                     num += 1
                     for token in tokens:
-                        if out != '' and token != ':' and token != '?' and token != ',' and token != '.' and token != ')' and tokens[tokens.index(token) -1] != '(': out += ' '
+                        if out != '' and token != ':' \
+                                and token != '?' and token != ',' \
+                                and token != '.' and token != ')' \
+                                and tokens[tokens.index(token) -1] != '(': out += ' '
                         if token == 'music':
                             out += musics.pop()[:-1]
                         elif token == 'musicians':
@@ -57,9 +60,9 @@ def generate_text():
     fmusic.close()
     fsinger.close()
     fmusician.close()
-def text():
-    with open('zing.txt', 'w') as fout:
-        files = get_filepaths('/home/tuong/Downloads/tacotron/zing')
+def text(output, dir):
+    with open(output, 'w') as fout:
+        files = get_filepaths(dir)
         for file in files:
             print(file)
             with open(file, 'r') as fin:
@@ -93,10 +96,10 @@ def rewrite_index():
                 w.write('vn_'+ str(i) +':'+t1[1])
                 i+=1
 
-def detectEnglish():
-    fe = open('ttvn_en.txt', 'w', encoding='utf-8')
-    fv = open('ttvn_vi.txt', 'w', encoding='utf-8')
-    with open('ttvn.txt', 'r') as fin:
+def detectEnglish(input):
+    fe = open('en_'+input, 'w', encoding='utf-8')
+    fv = open('vi_'+input, 'w', encoding='utf-8')
+    with open(input, 'r') as fin:
         d = enchant.Dict("en_US")
         for line in fin.readlines():
             tokens = nltk.word_tokenize(line)
@@ -157,9 +160,9 @@ def int_to_vn(num):
             return 'mười lăm'
         return "mười "+ d[num%10]
 
-def processNumber():
-    with open("tourist2-v1.txt", 'w') as fout:
-        with open('tourist2.txt', 'r') as fin:
+def processNumber(input, output):
+    with open(output, 'w') as fout:
+        with open(input, 'r') as fin:
             for line in fin.readlines():
                 out =''
                 tokens = nltk.word_tokenize(line)
@@ -196,10 +199,10 @@ def processNumber():
                 fout.write(out+'\n')
 
 
-def process2record():
-    i=2876
-    with open('tourist2-v2-record.txt', 'w') as w:
-        with open('tourist2-v1.txt', 'r') as f:
+def process2record(input, output, id):
+    i=id
+    with open(output, 'w') as w:
+        with open(input, 'r') as f:
             for line in f.readlines():
                 if line=='\n':
                     continue
@@ -211,9 +214,9 @@ def process2record():
                 w.write(text)
                 i+=1
 
-def process2train():
-    with open('tourist2-v2-train.txt', 'w') as m:
-        with open('tourist2-v2-record.txt', 'r') as f:
+def process2train(input, output):
+    with open(output, 'w') as m:
+        with open(input, 'r') as f:
             for line in f.readlines():
                 if line == '\n':
                     break
@@ -248,11 +251,12 @@ def checkFile():
             print(file)
 
 if __name__=="__main__":
-    text() # choose sentences having new word
-    detectEnglish() # classify sentence E and VN
-    #processNumber() # convert number to text
-    #process2record() # process to record
-    #process2train() # process to train
+
+    text('data.txt', '/home/tuong/tacotron/data') # choose sentences having new word
+    detectEnglish('data.txt') # classify sentence E and VN
+    #processNumber('data.txt', 'data-v1.txt') # convert number to text
+    #process2record('data-v1.txt', 'data-v1-record.txt', 11000) # process to record
+    #process2train('data-v1-record.txt', 'data-v1-train.txt') # process to train
     #print(int_to_vn(1000005))
     #generate_text()
     #checkFile()
