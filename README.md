@@ -1,11 +1,11 @@
 # Text-to-Speech
-- Requirement
+Requirement
     pip install -r requirements.txt
-- Process data
+Process data
     python preprocess.py --dataset ljspeech
-- Training
+Training
     python train.py
-- Evaluation
+Evaluation
     python eval.py --checkpoint=~/tacotron/logs-tacotron/model.ckpt-163000
-- Tensorboard
+Tensorboard
     tensorboard --logdir ~/tacotron/logs-tacotron
